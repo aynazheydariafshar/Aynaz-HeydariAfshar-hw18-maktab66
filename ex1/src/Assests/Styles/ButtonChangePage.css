@@ -1,0 +1,32 @@
+.lr-form input {
+    position: absolute !important;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    width: 1px;
+}
+  
+.lr-form label {
+    font-size: 1em;
+    text-align: center;
+    background-color: rgb(68, 68, 68);
+    border:0 ;
+    padding: 9px 100px;
+    color: #8d8d8d ;
+}
+  
+.lr-form label:hover {
+    cursor: pointer;
+    transition: .5s ease-out;
+}
+  
+.lr-form input#r-login:checked+label {
+    background-color: rgb(80, 187, 151) ;
+    color: white ;
+    border:0;
+}
+  
+.lr-form input#r-register:checked+label {
+    background-color: rgb(80, 187, 151) ;
+    color: white ;
+    border:0;
+}

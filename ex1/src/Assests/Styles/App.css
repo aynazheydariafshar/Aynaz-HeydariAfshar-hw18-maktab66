@@ -1,0 +1,24 @@
+@font-face {
+  font-family: 'iransans';
+  src:local("iransans"), url('../Fonts/Sans a4fran3.ttf');
+}
+
+*{
+  margin: 0;
+  font-family:iransans !important ;
+}
+
+.App {
+  text-align: center;
+  border: 17px solid #8d8d8d;
+  margin: 100px auto 100px auto;
+  padding: 1em;
+  width: 600px;
+  background-color: #3b3232;
+}
+
+
+
+
+
+
