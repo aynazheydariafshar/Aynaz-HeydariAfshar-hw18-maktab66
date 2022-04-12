@@ -57,7 +57,7 @@ const Login = () => {
          /* and other goodies */
        }) => (
         <form className='p-4' onSubmit={handleSubmit}>
-           <h5 className='text-light my-4'>خوش آمدید</h5>
+           <h5 className='text-light mb-3'>خوش آمدید</h5>
            <Form.Control
                 type="email"
                 name="email"

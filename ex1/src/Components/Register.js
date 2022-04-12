@@ -111,7 +111,7 @@ const Register = () => {
     
       return (
         <form className='p-4' onSubmit={formik.handleSubmit}>
-            <h5 className='text-light my-4'>رایگان ثبت نام کنید</h5>
+            <h5 className='text-light mb-3'>رایگان ثبت نام کنید</h5>
             <div className='row'>
                 <div className='col-6'>
                     <Form.Control
