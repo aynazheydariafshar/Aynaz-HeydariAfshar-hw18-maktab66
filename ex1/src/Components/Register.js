@@ -21,17 +21,20 @@ const Register = () => {
         setPasswordShown(passwordShown ? false : true);
     };
 
+    //education option
+    const education = ['کاردانی', 'کارشناسی', 'کارشناسی ارشد', 'دکتری' , 'دیپلم']
+
     //values formik
     const formik = useFormik({
         initialValues: {
             firstName: '',
             lastName: '',
-            education: ['کاردانی', 'کارشناسی', 'کارشناسی ارشد', 'دکتری' , 'دیپلم'],
-            educationSelected : 'choose',
-            city : 'chooseCity',
-            state : 'chooseState',
+            educationSelected : 'notchoose',
+            city : 'notchooseCity',
+            state : 'notchooseState',
             email : '',
-            password : ''
+            password : '',
+            locationEducation : ''
         },
 
         onSubmit: values => {
@@ -41,6 +44,31 @@ const Register = () => {
         //check validation
         validate : values => {
             const errors = {};
+
+            //handle firstName error
+            if (!values.firstName) {
+                errors.firstName = 'پر کردن این فیلد الزامی می باشد';
+            }
+
+            //handle lastName error
+            if (!values.lastName) {
+                errors.lastName = 'پر کردن این فیلد الزامی می باشد';
+            }
+
+            //handle locationEducation error
+            if (!values.locationEducation) {
+                errors.locationEducation = 'پر کردن این فیلد الزامی می باشد';
+            }
+
+            //handle city error
+            if (values.city === 'notchooseCity') {
+                errors.city = 'پر کردن این فیلد الزامی می باشد';
+            }
+
+            //handle state error
+            if (values.state === 'notchooseState') {
+                errors.state = 'پر کردن این فیلد الزامی می باشد';
+            }
 
             //handle email error
             if (!values.email) {
@@ -96,6 +124,7 @@ const Register = () => {
                         size='sm' 
                         className='register inputName' 
                     />
+                    <p className='error mt-2'>{formik.errors.firstName && formik.touched.firstName && formik.errors.firstName}</p>
                 </div>
                 <div className='col-6'>
                     <Form.Control
@@ -108,6 +137,7 @@ const Register = () => {
                         size='sm' 
                         className='register inputLastName' 
                     />
+                    <p className='error mt-2'>{formik.errors.lastName && formik.touched.lastName && formik.errors.lastName}</p>
                 </div>    
             </div>    
             <Form.Select
@@ -117,17 +147,24 @@ const Register = () => {
                 onChange={formik.handleChange}
                 className='register my-4' 
             >
-                <option value={'choose'}>تحصیلات</option>
-                {formik.values.education.map((item,idx) => (
+                <option value={'notchoose'}>تحصیلات</option>
+                {education.map(item => (
                     <option value={item}>{item}</option>
                 ))}
             </Form.Select>
-            {formik.values.educationSelected !== 'choose' && <Form.Control 
-                size='sm' 
-                className= 'register inputeducation my-4'
-                type="text" 
-                placeholder="محل تحصیل" 
-            />}
+            {formik.values.educationSelected !== 'notchoose' && 
+            <div>
+                <Form.Control 
+                    name='locationEducation'
+                    size='sm' 
+                    className= 'register inputeducation'
+                    type="text" 
+                    placeholder="محل تحصیل" 
+                    onChange={formik.handleChange}
+                    value={formik.values.locationEducation}
+                />
+                <p className='error mt-2'>{formik.errors.locationEducation && formik.touched.locationEducation && formik.errors.locationEducation}</p>
+            </div>}
             <div className='row'>
                 <div className='col-6'>
                     <Form.Select 
@@ -137,11 +174,12 @@ const Register = () => {
                         onChange={formik.handleChange}
                         value={formik.values.city}
                     >
-                        <option value={'chooseCity'}>شهرستان</option>
+                        <option value={'notchooseCity'}>شهرستان</option>
                         {data[formik.values.state] !== undefined && data[formik.values.state].map(item => (
                             <option value={item}>{item}</option>
                         ))}
                     </Form.Select>
+                    <p className='error mt-2'>{formik.errors.city && formik.touched.city && formik.errors.city}</p>
                 </div>
                 <div className='col-6'>
                     <Form.Select 
@@ -151,11 +189,12 @@ const Register = () => {
                         onChange={formik.handleChange}
                         value={formik.values.state}
                     >
-                        <option value={'chooseState'}>استان</option>
+                        <option value={'notchooseState'}>استان</option>
                         {Object.keys(data).map(item => (
                             <option value={item}>{item}</option>
                         ))}
                     </Form.Select>
+                    <p className='error mt-2'>{formik.errors.state && formik.touched.state && formik.errors.state}</p>
                 </div>
             </div>  
             <Form.Control
@@ -182,7 +221,7 @@ const Register = () => {
                 <p className='error mt-2'>{formik.errors.password && formik.touched.password && formik.errors.password}</p>
             </div>  
             <div className="d-grid">
-                <SubmitButton title={'ثبت نام'}/>  
+                <SubmitButton title={'ثبت نام'} disabledbtn = {formik.isSubmitting}/>  
             </div>
         </form>
     );
