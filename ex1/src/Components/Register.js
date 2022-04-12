@@ -2,12 +2,26 @@ import React from 'react';
 import '../Assests/Styles/Register.css';
 import { useFormik } from 'formik';
 import SubmitButton from './SubmitButton';
-import { Form, FormControl } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import {useState , useEffect} from 'react';
-import yup from 'formik-yup'
+import {FaEye , FaEyeSlash} from 'react-icons/fa'
+import '../Assests/Styles/Login.css';
+
 
 
 const Register = () => {
+
+    //eye icon for password
+    const eye = <FaEye />;
+    const noteye = <FaEyeSlash />;
+
+    const [passwordShown, setPasswordShown] = useState(false);
+
+    const togglePasswordVisiblity = () => {
+        setPasswordShown(passwordShown ? false : true);
+    };
+
+    //values formik
     const formik = useFormik({
         initialValues: {
             firstName: '',
@@ -15,20 +29,22 @@ const Register = () => {
             education: ['کاردانی', 'کارشناسی', 'کارشناسی ارشد', 'دکتری' , 'دیپلم'],
             educationSelected : 'choose',
             city : 'chooseCity',
-            state : 'chooseState'
+            state : 'chooseState',
+            email : ''
         },
         onSubmit: values => {
             alert(JSON.stringify(values, null, 2));
         },
     });
 
+    //data city and state from jsonfile
     const [data , setData] = useState([])
 
     const validate = (values) => {
 
     }
 
-    
+    //get data from json file
     const fetchData = () => {
         fetch('/json/iranstates.json')
         .then((response) => response.json())
@@ -46,7 +62,7 @@ const Register = () => {
    
     
       return (
-        <form onSubmit={formik.handleSubmit}>
+        <form className='p-4' onSubmit={formik.handleSubmit}>
             <h5 className='text-light my-4'>رایگان ثبت نام کنید</h5>
             <div className='row'>
                 <div className='col-6'>
@@ -121,7 +137,31 @@ const Register = () => {
                         ))}
                     </Form.Select>
                 </div>
-            </div>    
+            </div>  
+            <Form.Control
+                type="email"
+                name="email"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+                placeholder = "پست الکترونیکی"
+                className='login inputEmail my-4'
+            />
+            <div className='inputpassword-div'>
+                <Form.Control
+                    type={passwordShown ? "text" : "password"}
+                    name="password"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.password}
+                    placeholder="کلمه عبور"
+                    className='login inputPassword mb-4'
+                />
+                <i onClick={togglePasswordVisiblity}>{passwordShown ? eye : noteye }</i>
+            </div>  
+            <div className="d-grid">
+                <SubmitButton title={'ثبت نام'}/>  
+            </div>
         </form>
     );
 }

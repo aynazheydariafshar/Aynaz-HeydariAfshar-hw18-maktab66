@@ -12,7 +12,7 @@ function App() {
   }
   return (
     <div className="App">
-     <ButtonChangePage 
+      <ButtonChangePage 
       checkitregister = {status === 'register'}
       checkitlogin = {status === 'login'}
       clicklogin = {(e) => radioHandler(e.target.value)}

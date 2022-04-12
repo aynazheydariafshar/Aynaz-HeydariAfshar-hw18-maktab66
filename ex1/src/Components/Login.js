@@ -1,8 +1,8 @@
 import {useState} from 'react';
-import {FaEye , FaEyeSlash} from 'react-icons/fa'
+import {FaEye , FaEyeSlash} from 'react-icons/fa';
 import { Formik } from 'formik';
 import { Form } from 'react-bootstrap';
-import '../Assests/Styles/Login.css'
+import '../Assests/Styles/Login.css';
 import SubmitButton from './SubmitButton';
 
 const Login = () => {
