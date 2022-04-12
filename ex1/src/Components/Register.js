@@ -14,16 +14,36 @@ const Register = () => {
             lastName: '',
             education: ['کاردانی', 'کارشناسی', 'کارشناسی ارشد', 'دکتری' , 'دیپلم'],
             educationSelected : 'choose',
+            city : 'chooseCity',
+            state : 'chooseState'
         },
         onSubmit: values => {
             alert(JSON.stringify(values, null, 2));
         },
     });
 
+    const [data , setData] = useState([])
+
     const validate = (values) => {
 
     }
-    console.log(formik.values.educationSelected)
+
+    
+    const fetchData = () => {
+        fetch('/json/iranstates.json')
+        .then((response) => response.json())
+        .then((data) => {
+            setData(data);
+        })
+        .catch((error) => {
+            alert('error from data')
+        });
+    };
+    
+    useEffect(() => {
+        fetchData();
+    }, []);
+   
     
       return (
         <form onSubmit={formik.handleSubmit}>
@@ -56,16 +76,14 @@ const Register = () => {
             </div>    
             <Form.Select
                 aria-label="Default select example"
-                id='education'
                 name="educationSelected"
                 value={formik.values.educationSelected}
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
                 className='register my-4' 
             >
                 <option value={'choose'}>تحصیلات</option>
                 {formik.values.education.map((item,idx) => (
-                    <option value={item} label={item}>{item}</option>
+                    <option value={item}>{item}</option>
                 ))}
             </Form.Select>
             {formik.values.educationSelected !== 'choose' && <Form.Control 
@@ -74,6 +92,36 @@ const Register = () => {
                 type="text" 
                 placeholder="محل تحصیل" 
             />}
+            <div className='row'>
+                <div className='col-6'>
+                    <Form.Select 
+                        name = 'city'
+                        className='register selectEducation' 
+                        as="select"
+                        onChange={formik.handleChange}
+                        value={formik.values.city}
+                    >
+                        <option value={'chooseCity'}>شهرستان</option>
+                        {data[formik.values.state] !== undefined && data[formik.values.state].map(item => (
+                            <option value={item}>{item}</option>
+                        ))}
+                    </Form.Select>
+                </div>
+                <div className='col-6'>
+                    <Form.Select 
+                        name = 'state'
+                        className='register selectEducation' 
+                        as="select"
+                        onChange={formik.handleChange}
+                        value={formik.values.state}
+                    >
+                        <option value={'chooseState'}>استان</option>
+                        {Object.keys(data).map(item => (
+                            <option value={item}>{item}</option>
+                        ))}
+                    </Form.Select>
+                </div>
+            </div>    
         </form>
     );
 }
