@@ -30,19 +30,39 @@ const Register = () => {
             educationSelected : 'choose',
             city : 'chooseCity',
             state : 'chooseState',
-            email : ''
+            email : '',
+            password : ''
         },
+
         onSubmit: values => {
             alert(JSON.stringify(values, null, 2));
         },
+
+        //check validation
+        validate : values => {
+            const errors = {};
+
+            //handle email error
+            if (!values.email) {
+            errors.email = 'پر کردن این فیلد الزامی می باشد';
+            } else if (
+            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+            ) {
+            errors.email = 'لطفا یک ایمیل معتبر وارد نمایید';
+            }
+    
+            //handle password error
+            if(!values.password) {
+                errors.password = 'پر کردن این فیلد الزامی می باشد'
+            }else if(values.password.length < 6){
+                errors.password = 'رمز عبوری امن تر با حداقل 6 کاراکتر انتخاب کنید'
+            }
+            return errors;
+        }
     });
 
     //data city and state from jsonfile
     const [data , setData] = useState([])
-
-    const validate = (values) => {
-
-    }
 
     //get data from json file
     const fetchData = () => {
@@ -145,8 +165,9 @@ const Register = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
                 placeholder = "پست الکترونیکی"
-                className='login inputEmail my-4'
+                className='login inputEmail mt-4'
             />
+            <p className='error mt-2'>{formik.errors.email && formik.touched.email && formik.errors.email}</p>
             <div className='inputpassword-div'>
                 <Form.Control
                     type={passwordShown ? "text" : "password"}
@@ -155,9 +176,10 @@ const Register = () => {
                     onBlur={formik.handleBlur}
                     value={formik.values.password}
                     placeholder="کلمه عبور"
-                    className='login inputPassword mb-4'
+                    className='login inputPassword'
                 />
                 <i onClick={togglePasswordVisiblity}>{passwordShown ? eye : noteye }</i>
+                <p className='error mt-2'>{formik.errors.password && formik.touched.password && formik.errors.password}</p>
             </div>  
             <div className="d-grid">
                 <SubmitButton title={'ثبت نام'}/>  
