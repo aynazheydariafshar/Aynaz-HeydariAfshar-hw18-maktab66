@@ -13,7 +13,7 @@
 i{
     position: absolute;
     left: 4%;
-    top: 13%;
+    top: 20%;
     color: white;
 }
 
@@ -32,4 +32,10 @@ i:hover{
 .row-flex{
     display: flex;
     flex-direction: column;
+}
+
+.error{
+    color: rgb(241, 104, 104);
+    font-size: 11px;
+    text-align: right;
 }
