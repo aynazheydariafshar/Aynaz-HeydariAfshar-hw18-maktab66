@@ -1,0 +1,35 @@
+.login{
+    direction: rtl;
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    border-color: rgb(109, 108, 108) !important;
+    color: rgb(194, 194, 194) !important;
+}
+
+.inputpassword-div{
+    position: relative;
+}
+
+i{
+    position: absolute;
+    left: 4%;
+    top: 13%;
+    color: white;
+}
+
+i:hover{
+    color: rgb(80, 187, 151);
+    cursor: pointer;
+}
+
+.link-forget{
+    text-decoration: none;
+    color: rgb(80, 187, 151);
+    font-size: 13px;
+    text-align: right;
+}
+
+.row-flex{
+    display: flex;
+    flex-direction: column;
+}
