@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import SubmitButton from './SubmitButton';
 import { Form, FormControl } from 'react-bootstrap';
 import {useState , useEffect} from 'react';
+import yup from 'formik-yup'
 
 
 const Register = () => {
@@ -11,15 +12,19 @@ const Register = () => {
         initialValues: {
             firstName: '',
             lastName: '',
-            education: ['تحصیلات','کاردانی', 'کارشناسی', 'کارشناسی ارشد', 'دکتری' , 'دیپلم'],
-            educationSelected : ''
+            education: ['کاردانی', 'کارشناسی', 'کارشناسی ارشد', 'دکتری' , 'دیپلم'],
+            educationSelected : 'choose',
         },
         onSubmit: values => {
             alert(JSON.stringify(values, null, 2));
         },
     });
-        console.log(formik.values.educationSelected)
- 
+
+    const validate = (values) => {
+
+    }
+    console.log(formik.values.educationSelected)
+    
       return (
         <form onSubmit={formik.handleSubmit}>
             <h5 className='text-light my-4'>رایگان ثبت نام کنید</h5>
@@ -58,11 +63,12 @@ const Register = () => {
                 onBlur={formik.handleBlur}
                 className='register my-4' 
             >
+                <option value={'choose'}>تحصیلات</option>
                 {formik.values.education.map((item,idx) => (
                     <option value={item} label={item}>{item}</option>
                 ))}
             </Form.Select>
-            {formik.values.educationSelected.value !== 'تحصیلات' && <Form.Control 
+            {formik.values.educationSelected !== 'choose' && <Form.Control 
                 size='sm' 
                 className= 'register inputeducation my-4'
                 type="text" 
