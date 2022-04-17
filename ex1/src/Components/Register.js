@@ -1,8 +1,8 @@
 import React from 'react';
 import '../Assests/Styles/Register.css';
-import { useFormik, yupToFormErrors } from 'formik';
+import { useFormik } from 'formik';
 import SubmitButton from './SubmitButton';
-import { Form } from 'react-bootstrap';
+import { Form, Spinner } from 'react-bootstrap';
 import {useState , useEffect} from 'react';
 import {FaEye , FaEyeSlash} from 'react-icons/fa'
 import '../Assests/Styles/Login.css';
@@ -22,6 +22,9 @@ const Register = () => {
     const togglePasswordVisiblity = () => {
         setPasswordShown(passwordShown ? false : true);
     };
+
+    //spinner 
+    const[isloaded , setisloaded] = useState(false);
 
     //education option
     const education = ['کاردانی', 'کارشناسی', 'کارشناسی ارشد', 'دکتری' , 'دیپلم']
@@ -60,7 +63,6 @@ const Register = () => {
 
     //data city and state from jsonfile
     const [data , setData] = useState([])
-    console.log(formik.values.educationSelected)
 
     //get data from json file
     const fetchData = () => {
@@ -71,24 +73,17 @@ const Register = () => {
         })
         .catch((error) => {
             alert('error from data')
-        });
-        
+        })
+        .finally(setisloaded(true))
     };
-
-    const creatcourse = async () => {
-        let res =  axios
-        .post('http://localhost:8000/users' , 
-        {firstName : formik.values.firstName , lastName : formik.values.lastName})
-        console.log(res)
-    }
     
     useEffect(() => {
         fetchData();
     }, []);
    
     
-      return (
-        <form className='p-4' onSubmit={formik.handleSubmit}>
+      return (<>
+        {isloaded ? <form className='p-4' onSubmit={formik.handleSubmit}>
             <h5 className='text-light mb-3'>رایگان ثبت نام کنید</h5>
             <div className='row'>
                 <div className='col-6'>
@@ -201,8 +196,8 @@ const Register = () => {
             <div className="d-grid">
                 <SubmitButton title={'ثبت نام'} disabledbtn = {formik.isSubmitting}/>  
             </div>
-        </form>
-    );
+        </form> : <Spinner />}
+    </>);
 }
 
 
