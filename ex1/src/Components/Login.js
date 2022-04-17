@@ -1,11 +1,14 @@
-import {useState} from 'react';
+import {useState , useContext} from 'react';
 import {FaEye , FaEyeSlash} from 'react-icons/fa';
 import { Formik } from 'formik';
-import { Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import '../Assests/Styles/Login.css';
 import SubmitButton from './SubmitButton';
+import { UserContext } from "./UserContext";
+import WithLogOut from './WithLogOut';
 
-const Login = () => {
+
+const Login = ({logoutHandler}) => {
 
     const eye = <FaEye />;
     const noteye = <FaEyeSlash />;
@@ -16,8 +19,10 @@ const Login = () => {
         setPasswordShown(passwordShown ? false : true);
     };
 
-    return (
-        <Formik
+    const authContext = useContext(UserContext);
+
+    return (<>
+        {!authContext.loggedIn && <Formik
             initialValues={{ email: '', password: '' }}
             validate={values => {
                 const errors = {};
@@ -40,10 +45,8 @@ const Login = () => {
                 return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
                 setSubmitting(false);
-                }, 400);
+                authContext.login();
             }}
         >
        {({
@@ -87,10 +90,16 @@ const Login = () => {
             </div>   
         </form>
         )}
-        </Formik>
+        </Formik>}
+        {authContext.loggedIn && 
+        <div>
+            <h1 className='text-light my-3'>{`hello`}</h1>
+            <Button onClick={logoutHandler} className='mt-3 btn-logout'>خارج شوید</Button>
+        </div>}
+        </>
     )
 }
 
 
 
-export default Login;
+export default WithLogOut(Login) ;

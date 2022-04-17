@@ -17,6 +17,11 @@
   background-color: #3b3232;
 }
 
+.btn-logout{
+  background-color: rgb(253, 101, 87) !important;
+  border-color: rgb(253, 101, 87) !important;
+}
+
 
 
 
