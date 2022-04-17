@@ -7,6 +7,7 @@ import {useState , useEffect} from 'react';
 import {FaEye , FaEyeSlash} from 'react-icons/fa'
 import '../Assests/Styles/Login.css';
 import * as Yup from 'yup';
+import axios from 'axios';
 
 
 
@@ -38,8 +39,8 @@ const Register = () => {
             locationEducation : '',
         },
 
-        onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+        onSubmit: async(values) => {
+            axios.post('http://localhost:8000/users' , values)
         },
 
         //check validation
@@ -71,7 +72,15 @@ const Register = () => {
         .catch((error) => {
             alert('error from data')
         });
+        
     };
+
+    const creatcourse = async () => {
+        let res =  axios
+        .post('http://localhost:8000/users' , 
+        {firstName : formik.values.firstName , lastName : formik.values.lastName})
+        console.log(res)
+    }
     
     useEffect(() => {
         fetchData();

@@ -13,19 +13,7 @@ function App() {
   const [dataUser , setDataUser] = useState({})
 
   //get data from user
-  // useEffect(() => {
-  //   axios
-  //   .post('http://localhost:8000/users')
-  //   .then(res => res.data)
-  //   .then(mydata => {
-  //     setDataUser(mydata)})
-  //   .finally(() => setisloaded(true))
-  //   // const res = await axios.post('http://localhost:8000/users' , json , {
-  //   //   headers : {
-  //   //     'Content-Type': 'application/json'
-  //   //   }
-  //   // })
-  // }, [])
+
 
   //change between login and register page
   const radioHandler = (input) => {
