@@ -1,11 +1,12 @@
 import React from 'react';
 import '../Assests/Styles/Register.css';
-import { useFormik } from 'formik';
+import { useFormik, yupToFormErrors } from 'formik';
 import SubmitButton from './SubmitButton';
 import { Form } from 'react-bootstrap';
 import {useState , useEffect} from 'react';
 import {FaEye , FaEyeSlash} from 'react-icons/fa'
 import '../Assests/Styles/Login.css';
+import * as Yup from 'yup';
 
 
 
@@ -29,12 +30,12 @@ const Register = () => {
         initialValues: {
             firstName: '',
             lastName: '',
-            educationSelected : 'notchoose',
-            city : 'notchooseCity',
-            state : 'notchooseState',
+            educationSelected : '',
+            city : '',
+            state : '',
             email : '',
             password : '',
-            locationEducation : ''
+            locationEducation : '',
         },
 
         onSubmit: values => {
@@ -42,55 +43,23 @@ const Register = () => {
         },
 
         //check validation
-        validate : values => {
-            const errors = {};
-
-            //handle firstName error
-            if (!values.firstName) {
-                errors.firstName = 'پر کردن این فیلد الزامی می باشد';
-            }
-
-            //handle lastName error
-            if (!values.lastName) {
-                errors.lastName = 'پر کردن این فیلد الزامی می باشد';
-            }
-
-            //handle locationEducation error
-            if (!values.locationEducation) {
-                errors.locationEducation = 'پر کردن این فیلد الزامی می باشد';
-            }
-
-            //handle city error
-            if (values.city === 'notchooseCity') {
-                errors.city = 'پر کردن این فیلد الزامی می باشد';
-            }
-
-            //handle state error
-            if (values.state === 'notchooseState') {
-                errors.state = 'پر کردن این فیلد الزامی می باشد';
-            }
-
-            //handle email error
-            if (!values.email) {
-            errors.email = 'پر کردن این فیلد الزامی می باشد';
-            } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-            ) {
-            errors.email = 'لطفا یک ایمیل معتبر وارد نمایید';
-            }
-    
-            //handle password error
-            if(!values.password) {
-                errors.password = 'پر کردن این فیلد الزامی می باشد'
-            }else if(values.password.length < 6){
-                errors.password = 'رمز عبوری امن تر با حداقل 6 کاراکتر انتخاب کنید'
-            }
-            return errors;
-        }
+        validationSchema : Yup.object().shape({
+            firstName : Yup.string().required('پر کردن این فیلد الزامی می باشد'),
+            lastName : Yup.string().required('پر کردن این فیلد الزامی می باشد'),
+            city : Yup.string().required('پر کردن این فیلد الزامی می باشد'),
+            state : Yup.string().required('پر کردن این فیلد الزامی می باشد'),
+            email : Yup.string().email('لطفا یک ایمیل معتبر وارد نمایید').required('پر کردن این فیلد الزامی می باشد'),
+            password : Yup.string().min(6 , 'رمز عبوری امن تر با حداقل 6 کاراکتر انتخاب کنید').required('پر کردن این فیلد الزامی می باشد'),
+            // locationEducation : Yup.string().when('educationSelected' , {
+            //     is: (value) => value !== undefined,
+            //     then: Yup.string().required("پر کردن این فیلد الزامی می باشد"),
+            // })
+        })
     });
 
     //data city and state from jsonfile
     const [data , setData] = useState([])
+    console.log(formik.values.educationSelected)
 
     //get data from json file
     const fetchData = () => {
@@ -147,12 +116,12 @@ const Register = () => {
                 onChange={formik.handleChange}
                 className='register my-4' 
             >
-                <option value={'notchoose'}>تحصیلات</option>
+                <option value=''>تحصیلات</option>
                 {education.map(item => (
                     <option value={item}>{item}</option>
                 ))}
             </Form.Select>
-            {formik.values.educationSelected !== 'notchoose' && 
+            {formik.values.educationSelected !== '' &&
             <div>
                 <Form.Control 
                     name='locationEducation'
@@ -174,7 +143,7 @@ const Register = () => {
                         onChange={formik.handleChange}
                         value={formik.values.city}
                     >
-                        <option value={'notchooseCity'}>شهرستان</option>
+                        <option value={''}>شهرستان</option>
                         {data[formik.values.state] !== undefined && data[formik.values.state].map(item => (
                             <option value={item}>{item}</option>
                         ))}

@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState , useEffect} from "react";
 import './Assests/Styles/App.css';
 import ButtonChangePage from './Components/ButtonChangePage';
 import Login from './Components/Login';
@@ -9,12 +9,29 @@ import Spinner from "./Components/Spinner";
 
 function App() {
   const [status , statestatus] = useState('login');
-  const[isloaded , setisloaded] = useState(false)
+  const[isloaded , setisloaded] = useState(true);
+  const [dataUser , setDataUser] = useState({})
 
+  //get data from user
+  // useEffect(() => {
+  //   axios
+  //   .post('http://localhost:8000/users')
+  //   .then(res => res.data)
+  //   .then(mydata => {
+  //     setDataUser(mydata)})
+  //   .finally(() => setisloaded(true))
+  //   // const res = await axios.post('http://localhost:8000/users' , json , {
+  //   //   headers : {
+  //   //     'Content-Type': 'application/json'
+  //   //   }
+  //   // })
+  // }, [])
 
+  //change between login and register page
   const radioHandler = (input) => {
     statestatus(input)
   }
+
   return (
     <>
       {isloaded ? <div className="App">
@@ -25,7 +42,7 @@ function App() {
         clickregister = {(e) => radioHandler(e.target.value)}
       />
       {status === 'login' && <Login />}
-      {status === 'register' && <Register />}
+      {status === 'register' && <Register initialValues = {dataUser}/>}
       </div> : <Spinner />}
     </>
   );

@@ -1,5 +1,5 @@
 {
   "users" : [
-    
+    {"email" : "aynaz@gmail.com" , "password" : "111111111" , "firstName" : "aynaz" , "lastName" : "heydari" , "educationSelected" : "notchoose" , "city" : "کرمان" , "state" : "بافت" , "locationEducation" : " "}
   ]
 }
