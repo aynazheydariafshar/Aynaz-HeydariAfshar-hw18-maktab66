@@ -44,6 +44,7 @@ const Register = () => {
 
         onSubmit: async(values) => {
             axios.post('http://localhost:8000/users' , values)
+            alert('با موفقیت انجام شد')
         },
 
         //check validation
